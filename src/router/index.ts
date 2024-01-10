@@ -8,6 +8,26 @@ const router = createRouter({
       name: "home",
       component: () => import("@/views/Home.vue"),
     },
+    {
+      path: "/auth",
+      component: () => import("@/layouts/BlankLayout.vue"),
+      children: [
+        {
+          name: "login",
+          path: "/login",
+          component: () => import("@/views/auth/Login.vue"),
+        },
+        {
+          name: "register",
+          path: "/register",
+          component: () => import("@/views/auth/Register.vue"),
+        },
+      ],
+    },
+    {
+      path: "/:catchAll(.*)*",
+      component: () => import("@/views/system/Error404.vue"),
+    },
   ],
 });
 
