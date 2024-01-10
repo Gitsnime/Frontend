@@ -19,7 +19,70 @@ export default class Api {
     this.apiService.defaults.headers["Content-Type"] = "multipart/form-data";
   }
 
-  get(path: string, callback: any, app = this.app, resType = "json") {}
+  /* @GET METHOD  */
+  get(path: string, callback: any, app = this.app, resType = "json") {
+    return this.validateReq("GET", app, path, null, callback, false, resType);
+  }
+  /* @POST METHOD  */
+  post(
+    path: string,
+    request: any,
+    callback: any,
+    app = this.app,
+    isMultipart = false
+  ) {
+    return this.validateReq(
+      "POST",
+      app,
+      path,
+      request,
+      callback,
+      isMultipart,
+      "json"
+    );
+  }
+  /* @PUT METHOD  */
+  put(
+    path: string,
+    request: any,
+    callback: any,
+    app = this.app,
+    isMultipart = false
+  ) {
+    return this.validateReq(
+      "PUT",
+      app,
+      path,
+      request,
+      callback,
+      isMultipart,
+      "json"
+    );
+  }
+  /* @PATCH METHOD  */
+  patch(path: string, request: any, callback: any, app = this.app) {
+    return this.validateReq(
+      "PATCH",
+      app,
+      path,
+      request,
+      callback,
+      false,
+      "json"
+    );
+  }
+  /* @DELETE METHOD  */
+  delete(path: string, request: any, callback: any, app = this.app) {
+    return this.validateReq(
+      "DELETE",
+      app,
+      path,
+      request,
+      callback,
+      false,
+      "json"
+    );
+  }
 
   async validateReq(
     type: string,

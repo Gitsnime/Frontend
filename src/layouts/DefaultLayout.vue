@@ -1,4 +1,5 @@
 <template>
+    ini default layout
     <router-view></router-view>
 </template>
 
