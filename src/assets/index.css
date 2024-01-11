@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* .v-input.v-input-primary .v-input-wrapper:focus-within {
+  @apply !border-primary;
+}
+.v-input:not(.v-input--textarea) .v-input-wrapper:focus-within {
+  @apply !shadow-md;
+} */
