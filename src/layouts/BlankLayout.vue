@@ -11,20 +11,13 @@
                 <div class="overlay absolute inset-0 h-full max-h-[600px] w-full rounded-[20px]"></div>
             </div>
             <div class=" w-1/2 flex-1 flex justify-center items-center h-full ">
-                <div class=" w-fit">
-                    <h1 class="text-center ">Welcome to Gitsnime!</h1>
-                    <div class="bg-primary-380 rounded-2xl mt-5">
-                        <VTabs :items="tab" default-class="!rounded-2xl !px-12" inactive-class="!text-primary" class=""
-                            active-class="!bg-primary !text-white !rounded-2xl" hide-slider />
-                    </div>
-                </div>
+                <router-view></router-view>
             </div>
 
 
         </section>
 
 
-        <!-- <router-view></router-view> -->
     </main>
 </template>
 
