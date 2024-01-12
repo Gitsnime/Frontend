@@ -1,6 +1,8 @@
 <template>
-    ini default layout
-    <router-view></router-view>
+    NAVBAR
+    <main>
+        <router-view></router-view>
+    </main>
 </template>
 
 <script lang="ts">
