@@ -27,6 +27,16 @@
                     </VBtn>
                 </VContainer>
                 <VDivider class="mt-3 !border-black-120 !border-[1.2px]" />
+                <VContainer class=" mt-3">
+                    <VBtn no-ring :outlined="isFavorite" class="!text-primary !border-primary !border-[1.5px] !h-9">
+                        CHARACTERS
+                    </VBtn>
+                    <div class="mt-3">
+                        <VBtn no-ring :outlined="isFavorite" class="!text-primary !border-primary !border-[1.5px] !h-9">
+                            TRAILER
+                        </VBtn>
+                    </div>
+                </VContainer>
             </VContainer>
 
             <VContainer class="w-full">
@@ -157,6 +167,9 @@
                         </VBtn>
                     </VContainer>
                 </VContainer>
+                <VBtn no-ring :outlined="isFavorite" class="!text-secondary !border-secondary !border-[1.5px] !h-9">
+                    LOAD MORE
+                </VBtn>
             </VContainer>
         </VContainer>
     </section>
