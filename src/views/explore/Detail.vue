@@ -39,7 +39,7 @@
                     about the dark history surrounding the Titans, the Survey Corps has at long last found the answer they
                     so desperately fought to uncover. With the truth now in their hands, the group set out for the world
                     beyond the walls. In Shingeki no Kyojin: The Final Season, two utterly different worlds collide as each
-                    party pursues its own agenda in the long-awaited conclusion to Paradis' fight for freedom. [Written by
+                    party pursues its own agenda in the long-awaited conclusion to Paradis' fight for freedom. Written by
                     MAL Rewrite</VText>
                 <VText variant="xl" font-weight="medium" class="mt-5">Background</VText>
                 <VText class="!text-black/80 pl-2 pt-1">Shingeki no Kyojin: The Final Season adapts content from volumes
@@ -95,6 +95,68 @@
                         <div class="absolute bottom-[0.8px] w-full h-[1.2px] bg-black-120"></div>
                     </div>
                 </div>
+            </VContainer>
+            <VContainer class="mt-10">
+                <VContainer v-if="loading" v-for="(review, k) in reviews" :key="k">
+                    <VContainer class="flex justify-between ">
+                        <VContainer class="flex gap-3 mb-20">
+                            <VShimmer rounded class="!w-10 !h-10" />
+                            <VContainer>
+                                <VShimmer rounded />
+                                <VShimmer rounded class="!w-72 !mt-2" />
+                                <VContainer class="flex items-center gap-2 mt-5">
+                                    <VContainer class="flex items-center gap-2">
+                                        <VShimmer rounded class="!w-3 !h-3" />
+                                        <VShimmer rounded class="!h-2 !w-14" />
+                                    </VContainer>
+                                    <VContainer class="flex items-center gap-2">
+                                        <VShimmer rounded class="!w-3 !h-3" />
+                                        <VShimmer rounded class="!h-2 !w-14" />
+                                    </VContainer>
+                                </VContainer>
+                            </VContainer>
+                        </VContainer>
+                        <VContainer class="flex gap-2">
+                            <VShimmer rounded class="!w-1 !h-5" />
+                        </VContainer>
+                    </VContainer>
+                </VContainer>
+                <VContainer v-else v-for="(review, key) in reviews" :key="key"
+                    class="flex justify-between mb-5 pb-5 border-b-[1.3px] border-black/60">
+                    <VContainer class="flex  gap-3">
+                        <img src="../../../public/images/avatar_1.png" class="rounded-full w-10 h-10" />
+                        <VContainer>
+                            <VText variant="xs" class="!text-black/60">{{ review.name }}</VText>
+                            <VText variant="md" class="w-72 max-w-72">{{ review.review }}
+                            </VText>
+                            <VContainer class="mt-5 flex items-center gap-4">
+                                <VContainer class="flex items-center gap-2">
+                                    <VBtn no-ring icon fab @click="like"
+                                        class="!p-0 !w-fit !h-fit !border-none !text-secondary hover:!text-secondary/80 hover:!bg-transparent">
+                                        <VIcon size="sm" :name="isLiked ? 'mdi:thumb-up' : 'mdi:thumb-up-outline'" />
+                                    </VBtn>
+                                    <VText @click="like" variant="sm" font-weight="medium"
+                                        class="cursor-pointer !text-secondary">LIKE THIS ({{ review.like }})</VText>
+                                </VContainer>
+
+                                <VContainer class="flex items-center gap-2">
+                                    <VBtn no-ring icon fab @click="helpfull"
+                                        class="!p-0 !w-fit !h-fit !border-none !text-accent hover:!text-accent/80 hover:!bg-transparent">
+                                        <VIcon size="sm" :name="isHelpfull ? 'mdi:lightbulb' : 'mdi:lightbulb-outline'" />
+                                    </VBtn>
+                                    <VText @click="helpfull" variant="sm" font-weight="medium"
+                                        class="cursor-pointer !text-accent">VERY HELPFUL! ({{ review.helpfull }})
+                                    </VText>
+                                </VContainer>
+                            </VContainer>
+                        </VContainer>
+                    </VContainer>
+                    <VContainer>
+                        <VBtn icon fab no-ring class="!border-0 !w-fit !h-fit">
+                            <VIcon name="mdi:dots-vertical" class="!text-black/60" />
+                        </VBtn>
+                    </VContainer>
+                </VContainer>
             </VContainer>
         </VContainer>
     </section>
@@ -210,6 +272,27 @@ const tab = ref([
 ]);
 
 
+const reviews = [{
+    name: 'Wibu Sejati',
+    review: 'Great anime for those who want to fell in romance & cuteneess',
+    like: '69',
+    helpfull: '17703'
+},
+{
+    name: 'Wibu Bawang',
+    review: 'Mantap min aku nangis loh, sengaja ya buat aku nangis ToT',
+    like: '20',
+    helpfull: '100'
+},
+{
+    name: 'Wibu Sejati',
+    review: 'Lorem ipsum Mikasa dolor sit jean amet levi constectur eren',
+    like: '100',
+    helpfull: '2000'
+}
+
+]
+
 
 
 export default {
@@ -225,11 +308,15 @@ export default {
             tab,
             selectedTab: ref(0),
             filterReview: ref('latest'),
+            isLiked: ref(false),
+            isHelpfull: ref(false),
+            loading: ref(false)
         }
     },
     data() {
         return {
-            AnimeDataPoints
+            AnimeDataPoints,
+            reviews
         }
     },
     methods: {
@@ -239,9 +326,16 @@ export default {
         doReview() {
             console.log('review')
         },
+        like() {
+            this.isLiked = !this.isLiked
+        },
+        helpfull() {
+            this.isHelpfull = !this.isHelpfull
+        }
     },
     watch: {
         selectedTab() {
+            this.loading = true;
             switch (this.selectedTab) {
                 case 1:
                     this.filterReview = 'popular'
@@ -253,6 +347,10 @@ export default {
                     this.filterReview = 'latest'
                     break
             }
+            setTimeout(() => {
+                this.loading = false;
+            }, 500);
+            console.log(this.loading)
         }
     }
 
