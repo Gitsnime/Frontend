@@ -35,7 +35,7 @@ export const Config = {
   logout() {
     localStorage.clear();
     sessionStorage.clear();
-    // window.location.assign('/login')
-    window.location.assign("/#/");
+    window.location.assign("/login");
+    // window.location.assign("/#/");
   },
 };

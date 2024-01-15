@@ -1,8 +1,8 @@
 <template>
-    <section class="detail-page pt-5 px-32 ">
+    <section class="detail-page pt-5 px-5 lg:px-32 ">
         <VText variant="display-md" font-weight="semibold">Shingeki No Kyojin 2nd Season</VText>
-        <VContainer class="mt-5 flex gap-5">
-            <VContainer class="w-[220px]">
+        <VContainer class="mt-5 block md:flex gap-5">
+            <VContainer class=" w-full md:w-[220px]">
                 <VContainer class="w-full">
                     <img src="../../../public/images/aot2.jpg" class="min-w-[220px] max-w-[320px] h-[360px] rounded-lg  " />
                 </VContainer>
@@ -21,17 +21,19 @@
                         :class="isFavorite ? '!bg-accent !text-white' : '!text-accent'" @click="favorite">
                         I LOVE THIS ANIME!
                     </VBtn>
+                    <br class="block md:hidden" />
                     <VBtn no-ring prefix-icon="mdi:pencil" href="#review"
                         class="mt-4 !text-accent !border-accent hover:!bg-accent/5 !border-[1.5px] !px-2 !h-9">WRITE
                         REVIEW
                     </VBtn>
                 </VContainer>
                 <VDivider class="mt-3 !border-black-120 !border-[1.2px]" />
-                <VContainer class=" mt-3">
-                    <VBtn no-ring :outlined="isFavorite" class="!text-primary !border-primary !border-[1.5px] !h-9">
+                <VContainer class="flex items-center gap-3 md:gap-0 md:block mt-3">
+                    <VBtn no-ring :outlined="isFavorite" class="!text-primary !border-primary !border-[1.5px] !h-9"
+                        @click="showDialog = !showDialog">
                         CHARACTERS
                     </VBtn>
-                    <div class="mt-3">
+                    <div class="mt-0 md:mt-3">
                         <VBtn no-ring :outlined="isFavorite" class="!text-primary !border-primary !border-[1.5px] !h-9">
                             TRAILER
                         </VBtn>
@@ -39,7 +41,7 @@
                 </VContainer>
             </VContainer>
 
-            <VContainer class="w-full">
+            <VContainer class="w-full mt-5 md:mt-0">
                 <VText variant="xl" font-weight="medium">Synopsis</VText>
                 <VText class="!text-black/80 pl-2 pt-1">Gabi Braun and Falco Grice have been training their entire lives to
                     inherit one of the seven Titans under Marley's control and aid their nation in eradicating the Eldianson
@@ -56,25 +58,25 @@
                     23-28 of Hajime Isayama's award-winning manga.</VText>
 
                 <VText variant="xl" font-weight="medium" class="mt-5">Information</VText>
-                <VContainer class="flex  gap-3 ">
-                    <VContainer class="w-1/2 max-w-1/2 ">
+                <VContainer class="block lg:flex gap-3 ">
+                    <VContainer class="w-full lg:w-1/2">
                         <VDataTable flat dense :items="cols_1" :headers="rows" class="text-ellipsis">
                             <template #item.title="{ item }">
                                 <VText class="!vertical-top" font-weight="semibold" variant="md">{{ item.title }}</VText>
                             </template>
                             <template #item.value="{ item }">
-                                <VText class="pt-[2px]">{{ item.value }}</VText>
+                                <VText class="pt-0 lg:pt-[2px]">{{ item.value }}</VText>
                             </template>
                         </VDataTable>
                     </VContainer>
 
-                    <VContainer class="w-1/2">
+                    <VContainer class="w-full lg:w-1/2">
                         <VDataTable flat dense :items="cols_2" :headers="rows">
                             <template #item.title="{ item }">
                                 <VText font-weight="semibold" variant="md"> {{ item.title }}</VText>
                             </template>
                             <template #item.value="{ item }">
-                                <VText class="pt-[2px]">{{ item.value }}</VText>
+                                <VText class="pt-0 lg:pt-[2px]">{{ item.value }}</VText>
                             </template>
                         </VDataTable>
                     </VContainer>
@@ -91,9 +93,9 @@
                 <VBtn dense no-ring class="!bg-primary hover:!opacity-95  !text-white mt-2 !px-5 !h-9">POST</VBtn>
             </VContainer>
             <VContainer class="mt-8">
-                <div class="flex items-center justify-between">
+                <div class="block md:flex items-center justify-between">
                     <VText variant="xl" font-weight="medium" class="!text-primary">Reviews (420)</VText>
-                    <div class="relative">
+                    <div class="relative mt-3">
                         <VTabs v-model="selectedTab" :items="tab" default-class="!text-sm !font-medium"
                             inactive-class="!text-black/60" class="!border-b-[1.2px] ! !p-0 !rounded-none"
                             active-class="!text-primary" :style="{
@@ -170,6 +172,7 @@
                 <VBtn no-ring :outlined="isFavorite" class="!text-secondary !border-secondary !border-[1.5px] !h-9">
                     LOAD MORE
                 </VBtn>
+                <Dialog :show="showDialog" header-title="Characters" :model-value="characters" :rounded-image="false" />
             </VContainer>
         </VContainer>
     </section>
@@ -178,6 +181,7 @@
 <script lang="ts">
 import type { VDataTableHeader } from '@morpheme/table';
 import { ref } from 'vue'
+import Dialog from '@/components/general/Dialog.vue';
 
 const cols_1 = [{
     title: 'Source',
@@ -307,6 +311,69 @@ const reviews = [{
 ]
 
 
+const characters = [{
+    id: 1,
+    img: '../../../public/images/mikasa.png',
+    title: 'Ackerman, Mikasa',
+    subTitle: 'main'
+},
+{
+    id: 2,
+    img: '../../../public/images/mikasa.png',
+    title: 'Ackerman, Mikasa',
+    subTitle: 'main'
+},
+{
+    id: 3,
+    img: '../../../public/images/mikasa.png',
+    title: 'Ackerman, Mikasa',
+    subTitle: 'main'
+},
+{
+    id: 4,
+    img: '../../../public/images/mikasa.png',
+    title: 'Ackerman, Mikasa',
+    subTitle: 'main'
+}, {
+    id: 5,
+    img: '../../../public/images/mikasa.png',
+    title: 'Ackerman, Mikasa',
+    subTitle: 'main'
+},
+{
+    id: 6,
+    img: '../../../public/images/mikasa.png',
+    title: 'Ackerman, Mikasa',
+    subTitle: 'main'
+},
+{
+    id: 7,
+    img: '../../../public/images/mikasa.png',
+    title: 'Ackerman, Mikasa',
+    subTitle: 'main'
+},
+{
+    id: 8,
+    img: '../../../public/images/mikasa.png',
+    title: 'Ackerman, Mikasa',
+    subTitle: 'main'
+},
+{
+    id: 9,
+    img: '../../../public/images/mikasa.png',
+    title: 'Ackerman, Mikasa',
+    subTitle: 'main'
+},
+{
+    id: 10,
+    img: '../../../public/images/mikasa.png',
+    title: 'Ackerman, Mikasa',
+    subTitle: 'main'
+}
+
+
+]
+
 
 export default {
     name: 'DetailPage',
@@ -323,15 +390,18 @@ export default {
             filterReview: ref('latest'),
             isLiked: ref(false),
             isHelpfull: ref(false),
-            loading: ref(false)
+            loading: ref(false),
+            showDialog: ref(false)
         }
     },
     data() {
         return {
             AnimeDataPoints,
-            reviews
+            reviews,
+            characters
         }
     },
+    components: { Dialog },
     methods: {
         favorite() {
             this.isFavorite = !this.isFavorite
@@ -394,5 +464,10 @@ export default {
 
 .detail-page .v-input.v-input--textarea .v-input-control {
     resize: none !important;
+}
+
+.detail-page .v-tabs-items {
+    width: 100% !important;
+    justify-content: center !important;
 }
 </style>
