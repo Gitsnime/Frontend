@@ -13,6 +13,16 @@ const router = createRouter({
           component: () => import("@/views/explore/Explore.vue"),
         },
         {
+          name: "favorites",
+          path: "/favorites",
+          component: () => import("@/views/favorites/Favorites.vue"),
+        },
+        {
+          name: "reviews",
+          path: "/reviews",
+          component: () => import("@/views/reviews/Reviews.vue"),
+        },
+        {
           name: "detail_anime",
           path: "/detail/:anime_id",
           component: () => import("@/views/explore/Detail.vue"),

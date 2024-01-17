@@ -26,6 +26,7 @@ const black = {
   120: "rgba(34, 34, 34, 0.12)",
   240: "rgba(34, 34, 34, 0.24)",
   380: "rgba(34, 34, 34, 0.38)",
+  600: "rgba(34, 34, 34, 0.60)",
 };
 
 // DITAMBAH WHITE MALAH ERROR
