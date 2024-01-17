@@ -1,6 +1,6 @@
 <template>
     <div>
-        Explore animek disini bray
+        Explore anime disini
     </div>
 </template>
 
