@@ -18,24 +18,26 @@ export const Config = {
   apiUrl(app = "") {
     let url = "";
     if (app == "gitsnime") {
-      url = "--endpoint--";
+      url = "https://song-lyrics-api.azharimm.dev";
       const hostname = window.location.hostname;
-      if (hostname === "localhost") url = "--endpoint--";
+      if (hostname === "localhost")
+        url = "https://song-lyrics-api.azharimm.dev";
     } else {
-      url = "--endpoint--";
+      url = "https://song-lyrics-api.azharimm.dev";
       const hostname = window.location.hostname;
-      if (hostname === "localhost") url = "--endpoint--";
+      if (hostname === "localhost")
+        url = "https://song-lyrics-api.azharimm.dev";
     }
     return url;
   },
   getApiRoot(app = "") {
-    const version = "v1/";
+    const version = "/";
     return this.apiUrl(app) + version;
   },
   logout() {
     localStorage.clear();
     sessionStorage.clear();
     window.location.assign("/login");
-    // window.location.assign("/#/");
+    // window.location.assign("/#/");api
   },
 };

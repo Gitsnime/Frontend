@@ -1,11 +1,10 @@
 <template>
-    <div>
-        Expore anime
-    </div>
+    <h1>Revies</h1>
 </template>
 
 <script lang="ts">
 export default {
-    name: 'ExplorePage'
+    name: 'MyReviewPage'
 }
+
 </script>

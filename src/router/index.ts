@@ -27,6 +27,16 @@ const router = createRouter({
           path: "/detail/:anime_id",
           component: () => import("@/views/explore/Detail.vue"),
         },
+        {
+          name: "favorites",
+          path: "/favorites",
+          component: () => import("@/views/explore/Favorites.vue"),
+        },
+        {
+          name: "my_reviews",
+          path: "myreviews",
+          component: () => import("@/views/explore/MyReviews.vue"),
+        },
       ],
     },
     {

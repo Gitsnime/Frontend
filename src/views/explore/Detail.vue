@@ -182,6 +182,8 @@
 import type { VDataTableHeader } from '@morpheme/table';
 import { ref } from 'vue'
 import Dialog from '@/components/general/Dialog.vue';
+// import Api from '@/services/Api/Index';
+
 
 const cols_1 = [{
     title: 'Source',
@@ -396,6 +398,7 @@ export default {
     },
     data() {
         return {
+            // API: new Api(),
             AnimeDataPoints,
             reviews,
             characters
@@ -414,7 +417,16 @@ export default {
         },
         helpfull() {
             this.isHelpfull = !this.isHelpfull
-        }
+        },
+        // cekApi() {
+        //     this.API.get('hot', (status: any, data: any) => {
+        //         if (status === 200) {
+        //             console.log(data)
+        //         } else {
+        //             console.log('error')
+        //         }
+        //     })
+        // }
     },
     watch: {
         selectedTab() {
@@ -435,8 +447,10 @@ export default {
             }, 500);
             console.log(this.loading)
         }
+    },
+    created() {
+        // this.cekApi()
     }
-
 }
 </script>
 
