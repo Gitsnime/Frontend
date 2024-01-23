@@ -1,36 +1,18 @@
 <template>
   <div class="p-6 lg:mx-20">
-    <form
-      class="grid mb-6 gap-4 grid-cols-1 md:justify-items-center items-center content-center h-full"
-    >
+    <form class="grid mb-6 gap-4 grid-cols-1 md:justify-items-center items-center content-center h-full">
       <div class="flex gap-x-2 items-center content-center">
         <VInput placeholder="Keyword" />
 
-        <v-form-select
-          class="hidden md:block"
-          name="genre"
-          :items="status"
-        />
-        <v-form-select
-          class="hidden md:block"
-          name="genre"
-          :items="status"
-        />
+        <v-form-select class="hidden md:block" name="genre" :items="status" />
+        <v-form-select class="hidden md:block" name="genre" :items="status" />
 
-        <VBtn
-          color="primary"
-          class="!bg-primary hover:!bg-primary/90 !text-white"
-          >Search</VBtn
-        >
+        <VBtn color="primary" class="!bg-primary hover:!bg-primary/90 !text-white">Search</VBtn>
       </div>
 
       <div class="flex gap-x-2 md:hidden">
-        <v-form-select
-          :items="status"
-        />
-        <v-form-select
-          :items="status"
-        />
+        <v-form-select :items="status" />
+        <v-form-select :items="status" />
       </div>
     </form>
 
@@ -50,6 +32,9 @@
 <script lang="ts">
 import { ref } from "vue";
 import ExploreCard from "@/components/general/ExploreCard.vue";
+import Api from "@/services/Api/Index";
+import { authStore } from '@/stores/Auth';
+
 
 const status = ref([
   {
@@ -76,8 +61,21 @@ export default {
   components: { ExploreCard },
   data() {
     return {
+      API: new Api(),
       status,
     };
   },
+  methods: {
+    getMe() {
+      this.API.get('auth/me', (status: number, data: any) => {
+        if (status === 200) {
+          authStore().setUser(data)
+        }
+      })
+    },
+  },
+  created() {
+    this.getMe()
+  }
 };
 </script>

@@ -42,7 +42,7 @@
                             <VMenusItem class="text-sm text-black/60"> Wibu sejati </VMenusItem>
                         </div>
                         <div>
-                            <VBtn no-ring prefix-icon="ic:outline-logout" to="/login"
+                            <VBtn no-ring prefix-icon="ic:outline-logout" @click="Logout"
                                 class="!px-2 !w-full !h-fit !border-0 !text-negative !py-2 !justify-start">Logout
                             </VBtn>
                         </div>
@@ -79,6 +79,7 @@
 
 <script lang="ts">
 import { ref } from 'vue'
+import { Config } from '@/services/Config/Index';
 
 const items = [
     {
@@ -108,6 +109,9 @@ export default {
         }
     },
     methods: {
+        Logout() {
+            Config.logout()
+        }
     },
     watch: {},
 }

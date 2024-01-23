@@ -9,49 +9,48 @@
             Lorem Ipsum is simply dummy text of the printing and <br> typesetting industry.
         </VText>
         <VContainer class="mt-8">
-            <VInput rounded type="text" color="black" placeholder="Enter your Username" v-model="username"
-                label="Username" />
-            <br />
-            <!-- <VInput rounded :type="showPass ? 'text' : 'password'" color="black" placeholder="Enter your Password"
-                v-model="password" label="Password" :append-icon="showPass ? 'mdi:eye-outline' : 'mdi:eye-off'"
-                @clickAppend="() => { showPass = !showPass }" />
-            <br />
-            <VInput rounded :type="showPass ? 'text' : 'password'" color="black" placeholder="Confi your Password"
-                v-model="password" label="Confirm Password" :append-icon="showPass ? 'mdi:eye-outline' : 'mdi:eye-off'"
-                @clickAppend="() => { showPass = !showPass }" /> -->
-            <div :class="mode === 'register' ? 'flex items-center w-full gap-5' : 'block'">
-                <div :class="mode === 'register' ? 'w-1/2' : ''">
-                    <VInput rounded :type="showPass ? 'text' : 'password'" color="black" placeholder="Enter your Password"
-                        v-model="password" label="Password" :append-icon="showPass ? 'mdi:eye-outline' : 'mdi:eye-off'"
-                        @clickAppend="() => { showPass = !showPass }" />
+            <form @submit.prevent="handleAction">
+                <VInput rounded type="text" color="black" placeholder="Enter your Username" v-model="username"
+                    label="Username" />
+                <br />
+                <div :class="mode === 'register' ? 'flex items-center w-full gap-5' : 'block'">
+                    <div v-if="mode === 'register'" class="w-1/2">
+                        <VInput rounded :type="showPass ? 'text' : 'password'" color="black"
+                            placeholder="Enter your Password" v-model="password" label="Password"
+                            :append-icon="showPass ? 'mdi:eye-outline' : 'mdi:eye-off'"
+                            @clickAppend="() => { showPass = !showPass }" class="w-1/2" />
+                    </div>
+                    <div v-else class="w-full">
+                        <VInput rounded :type="showPass ? 'text' : 'password'" color="black"
+                            placeholder="Enter your Password" v-model="password" label="Password"
+                            :append-icon="showPass ? 'mdi:eye-outline' : 'mdi:eye-off'"
+                            @clickAppend="() => { showPass = !showPass }" class="w-1/2" />
+                        <div class="mt-5">
+                            <VCheckbox v-model="remember_me" label="Remember me" />
+                        </div>
+                    </div>
+                    <div v-if="mode === 'register'" class="w-1/2">
+                        <VInput rounded :type="showVerifPass ? 'text' : 'password'" color="black"
+                            placeholder="Confirm your Password" v-model="verifPass" label="Confirm Password"
+                            :append-icon="showVerifPass ? 'mdi:eye-outline' : 'mdi:eye-off'"
+                            @clickAppend="() => { showVerifPass = !showVerifPass }" class="w-1/2" />
+                    </div>
                 </div>
-                <div v-if="mode === 'register'" class="w-1/2">
-                    <VInput rounded :type="showVerifPass ? 'text' : 'password'" color="black"
-                        placeholder="Confirm your Password" v-model="verifPass" label="Confirm Password"
-                        :append-icon="showVerifPass ? 'mdi:eye-outline' : 'mdi:eye-off'"
-                        @clickAppend="() => { showVerifPass = !showVerifPass }" class="w-1/2" />
-                </div>
-            </div>
-            <VContainer v-if="mode === 'register'" class="mt-5">
-                <VText variant="md">Choose Avatar</VText>
-                <VContainer class="flex items-center gap-2 mt-2">
-                    <VBtn icon fab class="!p-0">
-                        <img src="../../../public/images/avatar_1.png" />
-                    </VBtn>
-                    <VBtn icon fab class="!p-0">
-                        <img src="../../../public/images/avatar_1.png" />
-                    </VBtn>
-                    <VBtn icon fab class="!p-0">
-                        <img src="../../../public/images/avatar_1.png" />
+                <VContainer v-if="mode === 'register'" class="mt-5">
+                    <VText variant="md">Choose Avatar</VText>
+                    <VContainer class="flex items-center gap-2 mt-2">
+                        <VBtn icon fab class="!p-0" v-for="(profil, key) in pfp" :key="key" @click="setPfp(profil)">
+                            <img :src="`http://localhost:8000/static${profil}`" />
+                        </VBtn>
+                    </VContainer>
+                </VContainer>
+                <VContainer class="flex items-center justify-center">
+                    <VBtn no-ring rounded class="!bg-primary hover:!bg-primary/90  !text-white !px-20 !mt-10 !mx-auto"
+                        type="submit">
+                        {{ mode === 'login' ? 'Login' : 'Register' }}
                     </VBtn>
                 </VContainer>
-            </VContainer>
-            <VContainer class="flex items-center justify-center">
-                <VBtn no-ring rounded class="!bg-primary hover:!bg-primary/90  !text-white !px-20 !mt-10 !mx-auto"
-                    @click="handleAction(mode)">
-                    {{ mode === 'login' ? 'Login' : 'Register' }}
-                </VBtn>
-            </VContainer>
+            </form>
         </VContainer>
     </VContainer>
 </template>
@@ -59,6 +58,7 @@
 <script lang="ts">
 import { ref } from 'vue';
 import Api from '@/services/Api/Index';
+import { authStore } from '@/stores/Auth';
 
 
 const tab = ref([
@@ -78,8 +78,17 @@ export default {
             tab,
             userModel: {
                 username: '',
-                password: ''
-            }
+                password: '',
+                password_match: '',
+                profile_picture: ''
+            },
+            loginModel: {
+                username: '',
+                password: '',
+            },
+            remember_me: ref(false),
+            loading: ref(false),
+            pfp: []
         }
     },
     setup() {
@@ -90,43 +99,88 @@ export default {
             mode: ref('login'),
             showPass: ref(false),
             verifPass: ref(''),
-            showVerifPass: ref(false)
+            showVerifPass: ref(false),
+            loading: ref(false)
         }
     },
     methods: {
         login() {
-            console.log('ini login')
+            this.loading = !this.loading
 
-            // this.userModel.username = this.username
-            // this.userModel.password = this.password
+            this.loginModel.username = this.username;
+            this.loginModel.password = this.password;
 
-            // this.API.post('endpoint', this.userModel, (status) => {
-            //     if (status === 200) {
-            //         console.log('login berhasil')
-            //     } else {
-            //         console.log('login error')
-            //     }
-            // })
+            const parrams = new URLSearchParams()
+            parrams.append('remember_me', this.remember_me.toString())
+            this.API.post(`auth/login?${parrams}`, this.loginModel, (status: number, data: any) => {
+                if (status === 200) {
+                    authStore().setToken(data.data.access_token);
+                    this.clearData(this.loginModel)
+
+                    if (authStore().getToken()) window.location.assign('/')
+                    this.loading = !this.loading
+                }
+            });
         },
         register() {
-            console.log('ini register')
+            this.userModel.username = this.username
+            this.userModel.password = this.password
+            this.userModel.password_match = this.verifPass
+
+            this.API.post('auth/register', this.userModel, (status: number) => {
+                if (status === 200) {
+                    console.log('berhasil')
+                    this.clearData(this.userModel)
+                }
+
+            })
         },
-        handleAction(mode: string) {
-            switch (mode) {
+        clearData(obj: any) {
+            this.username = ''
+            this.password = ''
+            this.verifPass = ''
+
+            for (let key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    if (typeof obj[key] === 'string') {
+                        obj[key] = '';
+                    } else if (typeof obj[key] === 'number') {
+                        obj[key] = 0;
+                    }
+                }
+            }
+        },
+        getPfp() {
+            this.API.get('static/pfp/', (status: number, data: any) => {
+                if (status === 200) {
+                    this.pfp = data.data;
+                } else {
+                    console.log('Error:', status);
+                }
+            });
+
+        },
+        setPfp(pfp: string) {
+            this.userModel.profile_picture = pfp
+        },
+        handleAction() {
+
+            switch (this.mode) {
                 case 'login':
-                    this.login()
-                    break
+                    this.login();
+                    break;
                 case 'register':
-                    this.register()
-                    break
+                    this.register();
+                    break;
                 default:
-                    console.log('no action')
-                    break
+                    console.log('no action');
+                    break;
             }
         }
     },
     watch: {
         selectedTab() {
+
             switch (this.selectedTab) {
                 case 1:
                     this.mode = 'register'
@@ -139,6 +193,9 @@ export default {
         showVerifPass() {
             console.log(this.showVerifPass)
         }
+    },
+    created() {
+        this.getPfp()
     }
 }
 </script>   

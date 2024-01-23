@@ -18,15 +18,13 @@ export const Config = {
   apiUrl(app = "") {
     let url = "";
     if (app == "gitsnime") {
-      url = "https://song-lyrics-api.azharimm.dev";
+      url = "http://localhost:8000";
       const hostname = window.location.hostname;
-      if (hostname === "localhost")
-        url = "https://song-lyrics-api.azharimm.dev";
+      if (hostname === "localhost") url = "http://localhost:8000";
     } else {
-      url = "https://song-lyrics-api.azharimm.dev";
+      url = "http://localhost:8000";
       const hostname = window.location.hostname;
-      if (hostname === "localhost")
-        url = "https://song-lyrics-api.azharimm.dev";
+      if (hostname === "localhost") url = "http://localhost:8000";
     }
     return url;
   },

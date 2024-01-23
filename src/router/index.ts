@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { authStore } from "@/stores/Auth";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -6,6 +7,7 @@ const router = createRouter({
     {
       path: "/",
       component: () => import("@/layouts/DefaultLayout.vue"),
+      meta: { requiresAuth: true },
       children: [
         {
           name: "explore",
@@ -45,6 +47,15 @@ const router = createRouter({
       component: () => import("@/views/system/Error404.vue"),
     },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = authStore().getToken();
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+
+  if (requiresAuth && !isAuthenticated) {
+    next("/login");
+  } else next();
 });
 
 export default router;

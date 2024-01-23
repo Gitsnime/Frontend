@@ -1,6 +1,8 @@
+/* eslint-disable */
 import axios from "axios";
 import { Config } from "../Config/Index";
 import { authStore } from "@/stores/Auth";
+import myAxios from "./AxiosInstance";
 
 export default class Api {
   apiService: any = {};
@@ -9,9 +11,7 @@ export default class Api {
   multipart_formdata = false;
 
   constructor() {
-    this.apiService = axios.create({
-      headers: { "x-access-token": "" },
-    });
+    this.apiService = myAxios;
     this.token = authStore().getToken();
   }
 

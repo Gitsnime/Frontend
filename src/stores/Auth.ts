@@ -5,10 +5,12 @@ export const authStore = defineStore({
   id: "auth",
   state: () => ({
     token: "",
-    token_expire: "",
     user: {
+      id: 0,
       username: "",
-      profile: "",
+      profile_picture: "",
+      createdAt: "",
+      updatedAt: "",
     },
   }),
   actions: {
@@ -37,10 +39,12 @@ export const authStore = defineStore({
     clearData() {
       const data = {
         token: "",
-        token_expire: "",
         user: {
+          id: 0,
           username: "",
-          profile: "",
+          profile_picture: "",
+          createdAt: "",
+          updatedAt: "",
         },
       };
       this.$state = data;
